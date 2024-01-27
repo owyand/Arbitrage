@@ -1,0 +1,11 @@
+﻿@model IEnumerable<SportModel>
+
+<h1>Sports</h1>
+
+@foreach (var sport in Model)
+{
+    <div class="sport">
+        <h2>@sport.Title</h2>
+        <p>@sport.Description</p>
+    </div>
+}
