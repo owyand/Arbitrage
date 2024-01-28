@@ -20,13 +20,6 @@ namespace Arbitrage.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> Sports()
-        {
-            IEnumerable<SportModel> data = await _sportsbookApiService.GetSports();
-
-            return View(data);
-        }
-
 
         public IActionResult Privacy()
         {
