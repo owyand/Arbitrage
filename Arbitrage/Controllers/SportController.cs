@@ -21,5 +21,8 @@ namespace Arbitrage.Controllers
 
             return View(data);
         }
+
+        //find list of events for that sport
+        //PassThroughAuthorizationHandler SportModel.key to the service layer to get the events
     }
 }

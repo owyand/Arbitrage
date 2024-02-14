@@ -45,6 +45,18 @@ namespace Arbitrage.Services
             // Handle errors or return default data
             return null;
         }
+
+        public async Task<IEnumerable<EventModel>> GetEvents(string sportId = "what sport")
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com/v4/sports/{sportId}/events?apiKey={apiKey}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<EventModel>>(jsonResponse);
+            }
+            return null;
+        }
     }
 
 }
