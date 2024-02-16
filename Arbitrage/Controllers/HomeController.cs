@@ -18,9 +18,7 @@ namespace Arbitrage.Controllers
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<SportModel> data = await _sportsbookApiService.GetSports();
-
-            return View(data);
+            return View();
         }
 
         public IActionResult Privacy()

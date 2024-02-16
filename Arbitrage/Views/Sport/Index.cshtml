@@ -1,0 +1,34 @@
+﻿@model IEnumerable<SportModel>
+
+<h1 class="text-center">Sports</h1>
+
+@{
+    var uniqueNames = new HashSet<string>();
+}
+
+<table class="table">
+  <tr>
+    @{ 
+      var count = 0;
+    }
+
+    @foreach (var sport in Model)
+    {
+      if (uniqueNames.Add(sport.Group))
+      {
+        if (count % 3 == 0) 
+        {
+          @:</tr><tr>
+        }
+
+        <td class="col-3">
+          <div class="card shadow text-center">
+            <a asp-controller="Sport" asp-action="SportDetails" asp-route-sportKey="@sport.Key">@sport.Group</a>
+          </div>
+        </td>
+
+        count++;
+      }
+    }
+  </tr>
+</table>

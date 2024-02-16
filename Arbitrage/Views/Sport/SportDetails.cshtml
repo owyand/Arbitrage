@@ -1,0 +1,53 @@
+﻿@using System.Globalization;
+@model IEnumerable<EventModel>                            
+                                                           
+@*iterate through model displaying information using cards 
+*@   
+
+
+<h1>Upcoming @Model.FirstOrDefault().SportTitle Events</h1>
+
+<table class="table">
+  <tr>
+    @{ 
+      var count = 0;
+    }
+
+    @foreach (var sportEvent in Model)
+    {
+        //get a formatted day and time
+        DateTime startTime;
+        string formattedStartTime = "unable to parse start time.";
+
+        if (DateTime.TryParseExact(sportEvent.CommenceTime, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+        {
+            formattedStartTime = startTime.ToString("dddd, MMMM dd, yyyy - h:mm tt"); // Example format: "Monday, February 17, 2024 - 2:00 AM"
+        }
+        else
+        {
+            Console.WriteLine("Unable to parse start time.");
+        }
+      
+      if (count % 2 == 0) 
+      {
+        @:</tr><tr>
+      }
+
+      <td class="col-3">
+        <div class="card shadow text-center">
+            <div class="card-header">
+                @sportEvent.HomeTeam vs. @sportEvent.AwayTeam
+            </div>
+            <div class="card-body">
+                <p>Commence Time: @formattedStartTime</p>
+                <p>League: @sportEvent.SportKey</p>
+                <p>Event Id: @sportEvent.Id</p>
+            </div>
+        </div>
+      </td>
+
+        count++;
+      
+    }
+  </tr>
+</table>
