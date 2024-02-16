@@ -3,6 +3,18 @@
 @*iterate through model displaying information using cards 
 *@   
 
+@do
+{
+    string sportTitle = "";
+    EventModel eventModel = Model.FirstOrDefault();
+    if (eventModel != null)
+    {
+        sportTitle = eventModel.SportTitle;
+    }
+
+    <h1>Upcoming @sportTitle Events</h1>
+} while (false);
+
 @foreach (var sportEvent in Model) {
 
     <h2>ID: @sportEvent.Id</h2>
