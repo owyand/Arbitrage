@@ -1,27 +1,53 @@
-﻿@model IEnumerable<EventModel>                            
+﻿@using System.Globalization;
+@model IEnumerable<EventModel>                            
                                                            
 @*iterate through model displaying information using cards 
 *@   
 
-@do
-{
-    string sportTitle = "";
-    EventModel eventModel = Model.FirstOrDefault();
-    if (eventModel != null)
-    {
-        sportTitle = eventModel.SportTitle;
+
+<h1>Upcoming @Model.FirstOrDefault().SportTitle Events</h1>
+
+<table class="table">
+  <tr>
+    @{ 
+      var count = 0;
     }
 
-    <h1>Upcoming @sportTitle Events</h1>
-} while (false);
+    @foreach (var sportEvent in Model)
+    {
+        //get a formatted day and time
+        DateTime startTime;
+        string formattedStartTime = "unable to parse start time.";
 
-@foreach (var sportEvent in Model) {
+        if (DateTime.TryParseExact(sportEvent.CommenceTime, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+        {
+            formattedStartTime = startTime.ToString("dddd, MMMM dd, yyyy - h:mm tt"); // Example format: "Monday, February 17, 2024 - 2:00 AM"
+        }
+        else
+        {
+            Console.WriteLine("Unable to parse start time.");
+        }
+      
+      if (count % 2 == 0) 
+      {
+        @:</tr><tr>
+      }
 
-    <h2>ID: @sportEvent.Id</h2>
-    <h5>SPORT KEY: @sportEvent.SportKey</h5>
-    <h5>SPORT TITLE: @sportEvent.SportTitle</h5>
-    <h5>COMMENCE TIME: @sportEvent.CommenceTime</h5>
-    <h5>HOME TEAM: @sportEvent.HomeTeam</h5>
-    <h5>AWAY TEAM: @sportEvent.AwayTeam</h5>
-    <br />
-}
+      <td class="col-3">
+        <div class="card shadow text-center">
+            <div class="card-header">
+                @sportEvent.HomeTeam vs. @sportEvent.AwayTeam
+            </div>
+            <div class="card-body">
+                <p>Commence Time: @formattedStartTime</p>
+                <p>League: @sportEvent.SportKey</p>
+                <p>Event Id: @sportEvent.Id</p>
+            </div>
+        </div>
+      </td>
+
+        count++;
+      
+    }
+  </tr>
+</table>
