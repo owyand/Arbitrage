@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 namespace Arbitrage.Services
 {
-
     public class SportsbookApiService : ISportsbookApiService
     {
         private readonly HttpClient _httpClient;
@@ -46,9 +45,10 @@ namespace Arbitrage.Services
             return null;
         }
 
-        public async Task<IEnumerable<EventModel>> GetEvents(string sportId = "what sport")
+        public async Task<IEnumerable<EventModel>> GetEvents(string sportKey)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com/v4/sports/{sportId}/events?apiKey={apiKey}");
+
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com//v4/sports/{sportKey}/events?apiKey={apiKey}");
 
             if (response.IsSuccessStatusCode)
             {

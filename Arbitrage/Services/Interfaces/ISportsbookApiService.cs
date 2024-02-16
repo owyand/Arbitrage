@@ -6,6 +6,6 @@ namespace Arbitrage.Services.Interfaces
     {
         Task<OddsModel> GetOdds();
         Task<IEnumerable<SportModel>> GetSports();
-        Task<IEnumerable<EventModel>> GetEvents(string var);
+        Task<IEnumerable<EventModel>> GetEvents(string sportKey);
     }
 }

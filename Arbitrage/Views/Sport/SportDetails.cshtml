@@ -1,2 +1,15 @@
-﻿@model SportModel
+﻿@model IEnumerable<EventModel>                            
+                                                           
+@*iterate through model displaying information using cards 
+*@   
 
+@foreach (var sportEvent in Model) {
+
+    <h2>ID: @sportEvent.Id</h2>
+    <h5>SPORT KEY: @sportEvent.SportKey</h5>
+    <h5>SPORT TITLE: @sportEvent.SportTitle</h5>
+    <h5>COMMENCE TIME: @sportEvent.CommenceTime</h5>
+    <h5>HOME TEAM: @sportEvent.HomeTeam</h5>
+    <h5>AWAY TEAM: @sportEvent.AwayTeam</h5>
+    <br />
+}
