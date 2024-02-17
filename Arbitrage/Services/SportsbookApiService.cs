@@ -9,9 +9,6 @@ namespace Arbitrage.Services
         private readonly HttpClient _httpClient;
 
         static string apiKey = "c92afe3bfe1458480e6f971207dfbfac";
-        //static string sport = "americanfootball_nfl";
-        //static string regions = "us";
-        //static string markets = "h2h";
 
         public SportsbookApiService(HttpClient httpClient)
         {
@@ -31,9 +28,11 @@ namespace Arbitrage.Services
             // Handle errors or return default data
             return null;
         }
-        public async Task<OddsModel> GetOdds()
+
+        //costs
+        public async Task<OddsModel> GetOdds(string sportKey)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com//v4/sports/?apiKey={apiKey}");
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com/v4/sports/{sportKey}/odds/?apiKey={apiKey}&regions=us&oddsFormat=american");
 
             if (response.IsSuccessStatusCode)
             {
@@ -55,6 +54,20 @@ namespace Arbitrage.Services
                 string jsonResponse = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<IEnumerable<EventModel>>(jsonResponse);
             }
+            return null;
+        }
+
+        //costs
+        public async Task<IEnumerable<GameModel>> GetScores(string sportKey)
+        {
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com/v4/sports/{sportKey}/scores/?apiKey={apiKey}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string jsonResponse = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<IEnumerable<GameModel>>(jsonResponse);
+            }
+
             return null;
         }
     }

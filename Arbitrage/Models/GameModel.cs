@@ -2,7 +2,7 @@
 
 namespace Arbitrage.Models
 {
-    public class EventModel
+    public class GameModel
     {
         [JsonProperty("id")]
         public string Id { get; set; }
@@ -22,7 +22,14 @@ namespace Arbitrage.Models
         [JsonProperty("away_team")]
         public string AwayTeam { get; set; }
 
+        [JsonProperty("completed")]
+        public bool Completed { get; set; }
+
+        [JsonProperty("scores")]
+        public IEnumerable<ScoreModel> Scores { get; set; }
+
+        [JsonProperty("last_update")]
+        public string lastUpdate { get; set; }
+
     }
 }
-
-/*bool completed, List<ScoreModel> Scores, DateTime lastUpdate
