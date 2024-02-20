@@ -8,6 +8,6 @@ namespace Arbitrage.Models
         public string Name { get; set; }
 
         [JsonProperty("score")]
-        public int Score { get; set; }
+        public string Score { get; set; }
     }
 }

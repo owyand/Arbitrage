@@ -1,12 +1,19 @@
-﻿namespace Arbitrage.Models
+﻿using Newtonsoft.Json;
+
+namespace Arbitrage.Models
 {
     public class OutcomeModel
     {
         public class Outcome
         {
+            [JsonProperty("name")]
             public string Name { get; set; }
-            public decimal Price { get; set; }
-            public decimal? Point { get; set; }
+
+            [JsonProperty("price")]
+            public string Price { get; set; }
+
+            [JsonProperty("point")]
+            public string? Point { get; set; }
         }
     }
 }

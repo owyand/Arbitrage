@@ -24,5 +24,3 @@ namespace Arbitrage.Models
 
     }
 }
-
-/*bool completed, List<ScoreModel> Scores, DateTime lastUpdate

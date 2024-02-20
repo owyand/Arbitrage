@@ -5,7 +5,7 @@ namespace Arbitrage.Services.Interfaces
     public interface ISportsbookApiService
     {
         //Returns a list of upcoming and live games with recent odds for a given sport, region and market. Uses quota costs. provides game and odd info for a list of games/events
-        Task<OddsModel> GetOdds(string sportKey);
+        Task<IEnumerable<OddsModel>> GetOdds(string sportKey);
 
         //Returns a list of in-season sport objects. The sport key can be used as the sport parameter in the /odds requests (below). This endpoint does not count against the usage quota.
         Task<IEnumerable<SportModel>> GetSports();

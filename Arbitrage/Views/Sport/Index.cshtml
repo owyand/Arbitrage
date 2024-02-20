@@ -23,7 +23,13 @@
 
         <td class="col-3">
           <div class="card shadow text-center">
-            <a asp-controller="Sport" asp-action="SportDetails" asp-route-sportKey="@sport.Key">@sport.Group</a>
+            <div class="card-header">
+              @sport.Group
+            </div>
+            <div class="card-body">
+            <a asp-controller="Sport" asp-action="SportDetails" asp-route-sportKey="@sport.Key">See Events</a>
+            <a asp-controller="Sport" asp-action="OddsDetails" asp-route-sportKey="@sport.Key">See Game Odds</a>
+        </div>
           </div>
         </td>
 

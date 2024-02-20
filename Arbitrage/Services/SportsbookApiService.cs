@@ -30,14 +30,14 @@ namespace Arbitrage.Services
         }
 
         //costs
-        public async Task<OddsModel> GetOdds(string sportKey)
+        public async Task<IEnumerable<OddsModel>> GetOdds(string sportKey)
         {
             HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com/v4/sports/{sportKey}/odds/?apiKey={apiKey}&regions=us&oddsFormat=american");
 
             if (response.IsSuccessStatusCode)
             {
                 string jsonResponse = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<OddsModel>(jsonResponse);
+                return JsonConvert.DeserializeObject<IEnumerable<OddsModel>>(jsonResponse);
             }
 
             // Handle errors or return default data

@@ -1,11 +1,10 @@
 ﻿@using System.Globalization;
-@model IEnumerable<EventModel>                            
+@model IEnumerable<OddsModel>                            
                                                            
 @*iterate through model displaying information using cards 
 *@   
 
-
-<h1>Upcoming @Model.FirstOrDefault().SportTitle Events</h1>
+<h1>This is the odds page</h1>
 
 <table class="table">
   <tr>
@@ -13,13 +12,13 @@
       var count = 0;
     }
 
-    @foreach (var sportEvent in Model)
+    @foreach (var game in Model)
     {
         //get a formatted day and time
         DateTime startTime;
         string formattedStartTime = "unable to parse start time.";
 
-        if (DateTime.TryParseExact(sportEvent.CommenceTime, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
+        if (DateTime.TryParseExact(game.CommenceTime, "yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture, DateTimeStyles.None, out startTime))
         {
             formattedStartTime = startTime.ToString("dddd, MMMM dd, yyyy - h:mm tt"); // Example format: "Monday, February 17, 2024 - 2:00 AM"
         }
@@ -36,13 +35,13 @@
       <td class="col-3">
         <div class="card shadow text-center">
             <div class="card-header">
-                @sportEvent.HomeTeam vs. @sportEvent.AwayTeam
+                @game.HomeTeam vs. @game.AwayTeam
             </div>
             <div class="card-body">
                 <p>Commence Time: @formattedStartTime</p>
-                <p>League: @sportEvent.SportKey</p>
-                <p>League: @sportEvent.SportTitle</p>
-                <p>Event Id: @sportEvent.Id</p>
+                <p>League: @game.SportKey</p>
+@*                <p>League: @game.SportTitle</p>
+*@                <p>Event Id: @game.Id</p>
             </div>
         </div>
       </td>

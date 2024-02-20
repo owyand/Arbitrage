@@ -36,6 +36,20 @@ namespace Arbitrage.Controllers
             return View(sportEvents);
         }
 
+        public async Task<IActionResult> OddsDetails(string sportKey)
+        {
+            IEnumerable<OddsModel> sportOdds = await _sportsbookApiService.GetOdds(sportKey);
+            if (sportOdds == null)
+            {
+                Console.WriteLine("sportEvents is null");
+            }
+            else
+            {
+                Console.WriteLine("sportEvents is not null");
+            }
+            return View(sportOdds);
+        }
+
         //find list of events for that sport
         //PassThroughAuthorizationHandler SportModel.key to the service layer to get the events
         //public IActionResult Details(int productId)
