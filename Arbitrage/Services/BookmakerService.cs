@@ -51,18 +51,18 @@ namespace Arbitrage.Services
             var markets = new List<MarketModel>();
 
             // Split the string by '&'
-            var marketStrings = marketsString.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+            var marketStrings = marketsString.Split(new[] { '%' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var marketStr in marketStrings)
             {
                 // Remove square brackets from the market string
-                var cleanMarketStr = marketStr.Trim('[', ']');
+                var cleanMarketStr = marketStr.Trim('(', ')');
 
                 // Split the market string by '|'
-                var marketProps = cleanMarketStr.Split('|');
+                var marketProps = cleanMarketStr.Split(';');
 
                 // Validate that marketProps has at least 2 elements
-                if (marketProps.Length >= 2)
+                if (true)
                 {
                     var market = new MarketModel
                     {
@@ -88,37 +88,56 @@ namespace Arbitrage.Services
             var outcomes = new List<OutcomeModel>();
 
             // Split the string by '&'
-            var outcomeStrings = outcomesString.Split(new[] { '&' }, StringSplitOptions.RemoveEmptyEntries);
+            var outcomeStrings = outcomesString.Split(new[] { '#' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var outcomeStr in outcomeStrings)
             {
                 // Remove square brackets from the outcome string
-                var cleanOutcomeStr = outcomeStr.Trim('[', ']');
+                var cleanOutcomeStr = outcomeStr.Trim('@', '@');
 
                 // Split the outcome string by '|'
-                var outcomeProps = cleanOutcomeStr.Split('|');
+                var outcomeProps = cleanOutcomeStr.Split('/');
 
-                // Validate that outcomeProps has at least 3 elements
-                if (outcomeProps.Length >= 3)
+                // Validate that outcomeProps has at least 2 elements
+                if (outcomeProps.Length >= 2)
                 {
-                    var outcome = new OutcomeModel
-                    {
-                        Name = outcomeProps[0],
-                        Price = double.Parse(outcomeProps[1]),
-                        Point = double.Parse(outcomeProps[2])
-                    };
+                    double price;
+                    double point = 0.0; // Set a default value for point
 
-                    outcomes.Add(outcome);
+                    // Try parsing the price
+                    if (double.TryParse(outcomeProps[1], out price))
+                    {
+                        // If the point is provided and can be parsed, set it
+                        if (outcomeProps.Length >= 3 && double.TryParse(outcomeProps[2], out double parsedPoint))
+                        {
+                            point = parsedPoint;
+                        }
+
+                        var outcome = new OutcomeModel
+                        {
+                            Name = outcomeProps[0],
+                            Price = price,
+                            Point = point
+                        };
+
+                        outcomes.Add(outcome);
+                    }
+                    else
+                    {
+                        // Handle the case where price parsing fails
+                        // For example, log an error or skip this outcome
+                    }
                 }
                 else
                 {
-                    // Handle the case where the outcomeProps array does not contain enough elements
+                    // Handle the case where outcomeProps array does not contain enough elements
                     // For example, log an error or skip this outcome
                 }
             }
 
             return outcomes;
         }
+
         //public List<BookmakerModel> DeserializeBookmakers(string bookmakersString)
         //{
         //    Console.WriteLine(bookmakersString);

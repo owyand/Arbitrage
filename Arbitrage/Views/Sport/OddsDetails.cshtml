@@ -62,77 +62,51 @@
                 }*@
 
                 @{
-                var queryStringParams = new List<string>();
+                    var bookmakersExample = "Bookmakers{[Key|Title|LastUpdate|Markets{}]&[Key|Title|LastUpdate|Markets{}]}";
 
+                    List<string> bookmakers = new List<string>();
+
+                    //gather all bookmakers
                     foreach (var bookmaker in game.Bookmakers)
                     {
-                        queryStringParams.Add($"key={bookmaker.Key}");
-                        queryStringParams.Add($"title={Uri.EscapeDataString(bookmaker.Title)}");
-                        queryStringParams.Add($"last_update={bookmaker.LastUpdate:yyyy-MM-ddTHH:mm:ssZ}");
+                        var marketsExample = "Markets{[marketKey|Outcomes{}]%[marketKey|Outcomes{}]}";
 
+                        List<string> markets = new List<string>();
+
+                        //gather all markets for this bookmaker
                         foreach (var market in bookmaker.Markets)
                         {
+                            var outcomesExample = "Outcomes{[name|price|point?]#[name|price|point?]}";
+                            List<string> outcomes = new List<string>();
+
+                            //gather all outcomes for this market
                             foreach (var outcome in market.Outcomes)
                             {
-                                queryStringParams.Add($"market_{market.Key}_outcome_{outcome.Name.Replace(" ", "_")}_price={outcome.Price}");
-                                
-                                if (market.Key == "spreads" && outcome.Point != null)
+                                string point = "0";
+                                if (outcome.Point != null)
                                 {
-                                    queryStringParams.Add($"market_{market.Key}_outcome_{outcome.Name.Replace(" ", "_")}_point={outcome.Point}");
+                                    point = outcome.Point.ToString();
                                 }
+                                string outcomeInfo = $"@{outcome.Name}/{outcome.Price.ToString()}/{point}@";
+                                outcomes.Add(outcomeInfo);
                             }
-                        }
-                    }               
 
-                var queryString = string.Join("&", queryStringParams);
+                            string allOutcomeInfos = string.Join("#", outcomes);
+
+                            //add any additional info for this market
+                            string marketInfo = $"({market.Key};{allOutcomeInfos})";
+                            markets.Add(marketInfo);
+                        }
+
+                        string allMarketInfos = string.Join("%", markets);
+
+                        //add any additional info for this bookmaker
+                        string bookmakerInfo = $"[{bookmaker.Key}|{bookmaker.Title}|{bookmaker.LastUpdate}|{allMarketInfos}]";
+                        bookmakers.Add(bookmakerInfo);
+                    }
+
+                    string allBookmakerInfos = string.Join("&", bookmakers);
                 }
-
-                        @{
-                            var bookmakersExample = "Bookmakers{[Key|Title|LastUpdate|Markets{}]&[Key|Title|LastUpdate|Markets{}]}";
-
-                            List<string> bookmakers = new List<string>();
-
-                            //gather all bookmakers
-                            foreach (var bookmaker in game.Bookmakers)
-                            {
-                                var marketsExample = "Markets{[marketKey|Outcomes{}]&[marketKey|Outcomes{}]}";
-
-                                List<string> markets = new List<string>();
-
-                                //gather all markets for this bookmaker
-                                foreach (var market in bookmaker.Markets)
-                                {
-                                    var outcomesExample = "Outcomes{[name|price|point?]&[name|price|point?]}";
-                                    List<string> outcomes = new List<string>();
-
-                                    //gather all outcomes for this market
-                                    foreach (var outcome in market.Outcomes)
-                                    {
-                                        string point = "0";
-                                        if (outcome.Point != null)
-                                        {
-                                            point = outcome.Point.ToString();
-                                        }
-                                        string outcomeInfo = $"[{outcome.Name}|{outcome.Price.ToString()}|{point}]";
-                                        outcomes.Add(outcomeInfo);
-                                    }
-
-                                    string allOutcomeInfos = string.Join("&", outcomes);
-
-                                    //add any additional info for this market
-                                    string marketInfo = $"[{market.Key}|{allOutcomeInfos}]";
-                                    markets.Add(marketInfo);
-                                }
-
-                                string allMarketInfos = string.Join("&", markets);
-
-                                //add any additional info for this bookmaker
-                                string bookmakerInfo = $"[{bookmaker.Key}|{bookmaker.Title}|{bookmaker.LastUpdate}|{allMarketInfos}]";
-                                bookmakers.Add(bookmakerInfo);
-                            }
-
-                            string allBookmakerInfos = string.Join("&", bookmakers);
-                        }
 
                 <a asp-controller="Bookmaker" asp-action="Index" asp-route-query="@allBookmakerInfos">See Bookmaker Odds</a>                                                                       
             </div>
