@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<SportsbookApiService>();
 builder.Services.AddScoped<ISportsbookApiService, SportsbookApiService>();
+builder.Services.AddScoped<IBookmakerService, BookmakerService>();
 
 var app = builder.Build();
 
