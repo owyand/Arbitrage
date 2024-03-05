@@ -14,7 +14,7 @@ namespace Arbitrage.Models
         public string LastUpdate { get; set; }
 
         [JsonProperty("markets")]
-        public List<MarketModel> Markets { get; set; }
+        public IEnumerable<MarketModel> Markets { get; set; }
 
     }
 }

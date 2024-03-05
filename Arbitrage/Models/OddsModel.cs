@@ -20,7 +20,7 @@ namespace Arbitrage.Models
         public string AwayTeam { get; set; }
 
         [JsonProperty("bookmakers")]
-        public List<BookmakerModel> Bookmakers { get; set; }
+        public IEnumerable<BookmakerModel> Bookmakers { get; set; }
 
     }
 }
