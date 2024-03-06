@@ -1,7 +1,31 @@
 ﻿@model IEnumerable<BookmakerModel>
 
-<h1>This is the bookmakers page where we will display all the information related to odds for the selected game</h1>
+<h1>
+    @Model.FirstOrDefault().Markets.FirstOrDefault().Outcomes.FirstOrDefault().Name vs 
+    @Model.FirstOrDefault().Markets.FirstOrDefault().Outcomes.LastOrDefault().Name
+</h1>
 
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
 
 <table>
     <thead>
@@ -18,90 +42,22 @@
             foreach (var market in bookmaker.Markets)
             {
                 <tr>
-                    @if (market == bookmaker.Markets.First())
+                    @if(@*this is the first market we need to display the Bookmaker title*@ true)
                     {
-                        <td rowspan="@bookmaker.Markets.Count()">@bookmaker.Title</td>
+                        <td>@bookmaker.Title</td>
+                    } else
+                    {
+                        <td></td>
                     }
                     <td>@market.Key</td>
+
                     @foreach(var outcome in market.Outcomes)
                     {
-                        <td>@outcome.Name</td>
                         <td>@outcome.Price</td>
-
-                        if(outcome.Point != null)
-                        {
-                            <td>@outcome.Point</td>
-                        }
-                        else
-                        {
-                            <td></td>
-                        }
+                        
                     }
                 </tr>
             }
         }
     </tbody>
 </table>
-
-
-@*<table>
-    <thead>
-        <tr>
-            <th>Bookmakers</th>
-            <th>Market</th>
-            <th>home team //markets.outcomes.name</th>
-            <th>away team //markets.outcomes.name</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var bookmaker in Model)
-        {
-
-            @for (int i = 1; i <= 2; i++)
-            {
-                var market = bookmaker.Markets.ElementAtOrDefault(i - 1);
-                <tr>
-                    @if (i == 1)
-                    {
-                        <td rowspan="2">@bookmaker.Title</td>
-                    }
-                    <td>@(market != null ? market.Key : "")</td>
-                    <td>@(market != null ? market.Outcomes.FirstOrDefault(outcome => outcome.Name == "home team")?.Price : "")</td>
-                    <td>@(market != null ? market.Outcomes.FirstOrDefault(outcome => outcome.Name == "away team")?.Price : "")</td>
-                </tr>
-            }
-        }
-    </tbody>
-</table>*@
-            
-@*            IEnumerable<MarketModel> markets = bookmaker.Markets;
-            
-            <tr>
-                <td>@bookmaker.Title</td>
-            </tr>
-
-            @foreach(var market in markets)
-            {
-                <tr>
-                    <td></td>
-
-                </tr>
-            }
-                @foreach(var market in markets)
-                {
-                    <td>@market.Key</td>
-                    </tr>
-                    <tr><td></td>
-                    
-                        @foreach(var outcome in market.Outcomes)
-                        {
-                            <td>@outcome.price</td>
-
-                        }
-                    </tr>
-                }
-    
-        }
-    </tbody>
-</table>*@

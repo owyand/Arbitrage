@@ -32,7 +32,7 @@ namespace Arbitrage.Services
         //costs
         public async Task<IEnumerable<OddsModel>> GetOdds(string sportKey)
         {
-            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com//v4/sports/{sportKey}/odds/?apiKey={apiKey}&regions=us&oddsFormat=american");
+            HttpResponseMessage response = await _httpClient.GetAsync($"https://api.the-odds-api.com//v4/sports/{sportKey}/odds/?apiKey={apiKey}&regions=us,us2&oddsFormat=american");
 
             if (response.IsSuccessStatusCode)
             {
