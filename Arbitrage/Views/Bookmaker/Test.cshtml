@@ -1,0 +1,42 @@
+﻿@model OddsModel
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Bookmaker</th>
+            <th>Market</th>
+            <th>@Model.HomeTeam</th>
+            <th>@Model.AwayTeam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bookmaker in Model.Bookmakers)
+        {
+            foreach (var market in bookmaker.Markets)
+            {
+                <tr>
+                    @if (market == bookmaker.Markets.First())
+                    {
+                        <td rowspan="@bookmaker.Markets.Count()">@bookmaker.Title</td>
+                    }
+                    <td>@market.Key</td>
+                    @foreach (var outcome in market.Outcomes)
+                    {
+                        <td>@outcome.Name</td>
+                        <td>@outcome.Price</td>
+
+                        if (outcome.Point != null)
+                        {
+                            <td>@outcome.Point</td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>

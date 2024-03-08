@@ -17,12 +17,17 @@ namespace Arbitrage.Controllers
             _bookmakerService = bookmakerService;
         }
 
-        public async Task<IActionResult> Index(string query)
+        public async Task<IActionResult> Index(string query, string forViewBag)
         {
             Console.WriteLine(query);
             IEnumerable<BookmakerModel> bookmakers = _bookmakerService.DeserializeBookmakers(query);
 
             return View(bookmakers);
+        }
+
+        public IActionResult Test(OddsModel game)
+        {
+            return View(game);
         }
 
     }

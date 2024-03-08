@@ -36,7 +36,7 @@ namespace Arbitrage.Services
             throw new NotImplementedException();
         }
 
-        public bool checkArbitrageOpportunity(List<int>)
+        public bool checkArbitrageOpportunity()
         {
             //sort both and iterate backwards until there is no match then all the past iterations are arbitrage
             throw new NotImplementedException("checking for an arbitrage opportunity");
