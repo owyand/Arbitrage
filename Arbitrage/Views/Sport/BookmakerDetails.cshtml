@@ -1,6 +1,32 @@
 ﻿@model OddsModel
 
+<h1>
+    @Model.FirstOrDefault().Markets.FirstOrDefault().Outcomes.FirstOrDefault().Name vs 
+    @Model.FirstOrDefault().Markets.FirstOrDefault().Outcomes.LastOrDefault().Name
+</h1>
+
+<style>
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 <h1>@Model.AwayTeam vs. @Model.HomeTeam at @Model.CommenceTime</h1>
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
 
 <table>
     <thead>
@@ -91,17 +117,14 @@
                 @foreach(var market in markets)
                 {
                     <td>@market.Key</td>
-                    </tr>
-                    <tr><td></td>
-                    
-                        @foreach(var outcome in market.Outcomes)
-                        {
-                            <td>@outcome.price</td>
 
-                        }
-                    </tr>
-                }
-    
+                    @foreach(var outcome in market.Outcomes)
+                    {
+                        <td>@outcome.Price</td>
+                        
+                    }
+                </tr>
+            }
         }
     </tbody>
-</table>*@
+</table>
