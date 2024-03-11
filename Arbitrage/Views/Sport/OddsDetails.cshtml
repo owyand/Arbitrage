@@ -108,7 +108,7 @@
                     string allBookmakerInfos = string.Join("&", bookmakers);
                 }
 
-                <a asp-controller="Bookmaker" asp-action="Index" asp-route-query="@allBookmakerInfos">See Bookmaker Odds</a>                                                                       
+                <a asp-controller="SportController" asp-action="BookmakerDetails" asp-route-id="@game.Id">See Bookmaker Odds</a>                                                                       
             </div>
         </div>
       </td>

@@ -1,19 +1,18 @@
-﻿@model IEnumerable<BookmakerModel>
+﻿@model OddsModel
 
-<h1>This is the bookmakers page where we will display all the information related to odds for the selected game</h1>
-
+<h1>@Model.AwayTeam vs. @Model.HomeTeam at @Model.CommenceTime</h1>
 
 <table>
     <thead>
         <tr>
             <th>Bookmaker</th>
             <th>Market</th>
-            <th>Home Team</th>
-            <th>Away Team</th>
+            <th>@Model.AwayTeam</th>
+            <th>@Model.HomeTeam</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var bookmaker in Model)
+        @foreach (var bookmaker in Model.Bookmakers)
         {
             foreach (var market in bookmaker.Markets)
             {
@@ -21,8 +20,9 @@
                     @if (market == bookmaker.Markets.First())
                     {
                         <td rowspan="@bookmaker.Markets.Count()">@bookmaker.Title</td>
+                        <td rowspan="@bookmaker.Markets.FirstOrDefault().Outcomes.Count()">@market.Key</td>
                     }
-                    <td>@market.Key</td>
+                    
                     @foreach(var outcome in market.Outcomes)
                     {
                         <td>@outcome.Name</td>
