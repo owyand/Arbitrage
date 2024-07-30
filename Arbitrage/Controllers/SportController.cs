@@ -87,7 +87,7 @@ namespace Arbitrage.Controllers
                     }
                 }
             }
-            return View();
+            return NotFound();
         }
 
         //find list of events for that sport

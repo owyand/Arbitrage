@@ -61,7 +61,7 @@
                     <button type="submit">See Bookmakers' Odds</button>
                 }*@
 
-                @{
+                @*{
                     var bookmakersExample = "Bookmakers{[Key|Title|LastUpdate|Markets{}]&[Key|Title|LastUpdate|Markets{}]}";
 
                     List<string> bookmakers = new List<string>();
@@ -106,9 +106,9 @@
                     }
 
                     string allBookmakerInfos = string.Join("&", bookmakers);
-                }
+                }*@
 
-                <a asp-controller="SportController" asp-action="BookmakerDetails" asp-route-id="@game.Id">See Bookmaker Odds</a>                                                                       
+                <a asp-controller="Sport" asp-action="BookmakerDetails" asp-route-id="@game.Id">See Bookmaker Odds</a>                                                                       
             </div>
         </div>
       </td>
