@@ -26,6 +26,12 @@
 
 <h1>@Model.AwayTeam vs. @Model.HomeTeam at @Model.CommenceTime</h1>
 
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+</style>
+
 <table>
     <thead>
         <tr>
@@ -115,17 +121,14 @@
                 @foreach(var market in markets)
                 {
                     <td>@market.Key</td>
-                    </tr>
-                    <tr><td></td>
-                    
-                        @foreach(var outcome in market.Outcomes)
-                        {
-                            <td>@outcome.price</td>
 
-                        }
-                    </tr>
-                }
-    
+                    @foreach(var outcome in market.Outcomes)
+                    {
+                        <td>@outcome.Price</td>
+                        
+                    }
+                </tr>
+            }
         }
     </tbody>
-</table>*@
+</table>

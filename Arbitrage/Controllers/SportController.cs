@@ -1,9 +1,4 @@
-﻿using Arbitrage.Models;
-using Arbitrage.Services.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
-
-namespace Arbitrage.Controllers
+﻿namespace Arbitrage.Controllers
 {
     public class SportController : Controller
     {
@@ -63,7 +58,9 @@ namespace Arbitrage.Controllers
                 //get the header for request displayed here
                 Console.WriteLine("sportEvents is not null");
             }
-            return View(sportOdds);
+
+            // If the game with the provided id was not found, handle the scenario here
+            return NotFound(); // For example, returning a "Not Found" page
         }
 
         public async Task<IActionResult> BookmakerDetails(string id)
