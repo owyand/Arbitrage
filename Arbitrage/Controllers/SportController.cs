@@ -1,4 +1,9 @@
-﻿namespace Arbitrage.Controllers
+﻿using Arbitrage.Models;
+using Arbitrage.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+
+namespace Arbitrage.Controllers
 {
     public class SportController : Controller
     {
@@ -39,6 +44,7 @@
 
             try
             {
+                //"List" but should only be one entry since we are finding by the game gameId
                 TempData["gameList"] = JsonConvert.SerializeObject(sportOdds);
 
                 TempData.Keep("gameList");
@@ -57,13 +63,15 @@
             {
                 //get the header for request displayed here
                 Console.WriteLine("sportEvents is not null");
+                return View(sportOdds);
             }
 
             // If the game with the provided id was not found, handle the scenario here
             return NotFound(); // For example, returning a "Not Found" page
         }
 
-        public async Task<IActionResult> BookmakerDetails(string id)
+        [Route("Sport/BookmakerDetails/{id}")]
+        public Task<IActionResult> BookmakerDetails(string id)
         {
 
             // Retrieve the JSON string from TempData and deserialize it
@@ -80,11 +88,11 @@
                 {
                     if (game.Id == id)
                     {
-                        return View(game);
+                        return Task.FromResult<IActionResult>(View(game));
                     }
                 }
             }
-            return NotFound();
+            return Task.FromResult<IActionResult>(NotFound());
         }
 
         //find list of events for that sport

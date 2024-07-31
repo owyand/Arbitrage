@@ -1,10 +1,12 @@
-﻿@using System.Globalization;
+﻿
+@using System.Globalization;
 @model IEnumerable<OddsModel>                            
                                                            
 @*iterate through model displaying information using cards 
 *@   
 
-<h1>This is the odds page</h1>
+
+<h1>This is the odds page for insert sport here</h1>
 
 <table class="table">
   <tr>
@@ -108,7 +110,7 @@
                     string allBookmakerInfos = string.Join("&", bookmakers);
                 }*@
 
-                <a asp-controller="Sport" asp-action="BookmakerDetails" asp-route-id="@game.Id">See Bookmaker Odds</a>                                                                       
+                <a asp-controller="Sport" asp-action="BookmakerDetails" asp-route-Id="@game.Id">See Bookmaker Odds</a>                                                                       
             </div>
         </div>
       </td>
