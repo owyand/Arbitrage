@@ -69,31 +69,96 @@ namespace Arbitrage.Controllers
             // If the game with the provided id was not found, handle the scenario here
             return NotFound(); // For example, returning a "Not Found" page
         }
-
-        [Route("Sport/BookmakerDetails/{id}")]
-        public Task<IActionResult> BookmakerDetails(string id)
+        public IActionResult BookmakerDetails(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return NotFound("ID cannot be null or empty.");
+            }
 
-            // Retrieve the JSON string from TempData and deserialize it
-            var gameListJson = TempData["gameList"] as string;
-            var gameList = JsonConvert.DeserializeObject<IEnumerable<OddsModel>>(gameListJson);
+            string? gameListJson = null;
+            try
+            {
+                gameListJson = TempData["gameList"] as string;
+                if (gameListJson == null)
+                {
+                    throw new Exception("TempData is null for 'gameList'.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error retrieving TempData: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, "Internal server error.");
+            }
+
+            IEnumerable<OddsModel>? gameList = null;
+            try
+            {
+                gameList = JsonConvert.DeserializeObject<IEnumerable<OddsModel>>(gameListJson);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error deserializing gameListJson: " + ex.Message + Environment.NewLine + ex.StackTrace);
+                return StatusCode(500, "Error deserializing data.");
+            }
 
             if (gameList == null)
             {
-                throw new Exception("API call is null for GetOdds. Possible TempData serialization issues");
+                return NotFound("Game list is empty.");
             }
-            else
+
+            var game = gameList.FirstOrDefault(g => g.Id == id);
+            if (game == null)
             {
-                foreach (var game in gameList)
-                {
-                    if (game.Id == id)
-                    {
-                        return Task.FromResult<IActionResult>(View(game));
-                    }
-                }
+                return NotFound("Game not found.");
             }
-            return Task.FromResult<IActionResult>(NotFound());
+
+            return View(game);
         }
+
+        //public IActionResult BookmakerDetails(string id)
+        //{
+        //    if (string.IsNullOrEmpty(id))
+        //    {
+        //        return NotFound();
+        //    }
+        //    // Retrieve the JSON string from TempData and deserialize it
+
+        //    string? gameListJson = null;
+        //    try
+        //    {
+        //        gameListJson = TempData["gameList"] as string;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message + Environment.NewLine + ex.StackTrace);
+        //    }
+
+        //    IEnumerable<OddsModel>? gameList = null;
+        //    if (gameListJson == null)
+        //    {
+        //        Console.WriteLine("Oh no");
+        //    }
+        //    else
+        //    {
+        //        gameList = JsonConvert.DeserializeObject<IEnumerable<OddsModel>>(gameListJson);
+        //    }
+        //    if (gameList == null)
+        //    {
+        //        throw new Exception("API call is null for GetOdds. Possible TempData serialization issues");
+        //    }
+        //    else
+        //    {
+        //        foreach (var game in gameList)
+        //        {
+        //            if (game.Id == id)
+        //            {
+        //                return View(game);
+        //            }
+        //        }
+        //    }
+        //    return NotFound();
+        //}
 
         //find list of events for that sport
         //PassThroughAuthorizationHandler SportModel.key to the service layer to get the events

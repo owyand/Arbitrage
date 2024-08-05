@@ -5,16 +5,16 @@ namespace Arbitrage.Models
     public class SportModel
     {
         [JsonProperty("key")]
-        public string Key { get; set; }
+        public string? Key { get; set; }
 
         [JsonProperty("group")]
-        public string Group { get; set; }
+        public string? Group { get; set; }
 
         [JsonProperty("title")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
 
         [JsonProperty("description")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [JsonProperty("active")]
         public bool Active { get; set; }

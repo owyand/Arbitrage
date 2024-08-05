@@ -26,6 +26,7 @@
 
 <h1>@Model.AwayTeam vs. @Model.HomeTeam at @Model.CommenceTime</h1>
 
+<style>
 th {
   background-color: #4CAF50;
   color: white;
@@ -47,10 +48,11 @@ th {
             foreach (var market in bookmaker.Markets)
             {
                 <tr>
+
                     @if (market == bookmaker.Markets.First())
                     {
                         <td rowspan="@bookmaker.Markets.Count()">@bookmaker.Title</td>
-                        <td rowspan="@bookmaker.Markets.FirstOrDefault().Outcomes.Count()">@market.Key</td>
+                        <td rowspan="@bookmaker.Markets.First().Outcomes.Count()">@market.Key</td>
                     }
                     
                     @foreach(var outcome in market.Outcomes)

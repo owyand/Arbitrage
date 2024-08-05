@@ -3,3 +3,9 @@
 
 // Write your JavaScript code.
 
+function closeDescriptionPopup() {
+    // Your logic to close the popup
+    document.getElementById('descriptionPopup').style.display = 'none';
+}
+
+
